@@ -18,6 +18,9 @@ import {
   Modal,
   ImageBackground,
   ScrollView,
+  SafeAreaView,
+  Platform,
+  KeyboardAvoidingView,
 } from 'react-native';
 
 const Screen = ({ backgroundColor, screenNumber, setScreenNumber }) => {
@@ -290,20 +293,82 @@ const ImageBackgroundExample = () => {
 const ScrollViewExample = () => {
   return (
     <ScrollView>
-      <View
-        style={{ width: 100, height: 300, backgroundColor: 'yellow' }}
-      ></View>
-      {/* <View style={{ width: 100, height: 300 }}></View>
-      <View style={{ width: 100, height: 300, backgroundColor: 'grey' }}></View>
-      <View style={{ width: 100, height: 300, backgroundColor: 'blue' }}></View> */}
+      <View style={{ width: 100, height: 300, backgroundColor: 'yellow' }} />
+      <View style={{ width: 100, height: 300, backgroundColor: 'orange' }} />
+      <View style={{ width: 100, height: 300, backgroundColor: 'grey' }} />
+      <View style={{ width: 100, height: 300, backgroundColor: 'blue' }} />
     </ScrollView>
+  );
+};
+
+const SafeAreaExample = () => {
+  return (
+    <SafeAreaView
+      style={{
+        // backgroundColor: Platform.OS === 'ios' ? 'yellow' : 'orange',
+        flex: 1,
+        paddingTop: 40,
+        padding: 100,
+        ...Platform.select({
+          ios: { backgroundColor: 'yellow' },
+          android: { backgroundColor: 'lightblue' },
+        }),
+      }}
+    >
+      <Text>Header on Platform: {Platform.OS}</Text>
+      {Platform.OS === 'ios' ? (
+        <Text>IOS APP!</Text>
+      ) : (
+        <Text>ANDROID APP!</Text>
+      )}
+      {Platform.select({
+        ios: <Text>IOS APP!</Text>,
+        android: <Text>ANDROID APP!</Text>,
+        web: <Text>WEB APP!</Text>,
+      })}
+    </SafeAreaView>
+  );
+};
+
+const KeyboardAvoidingExample = () => {
+  return (
+    <KeyboardAvoidingView
+      style={{
+        flex: 1,
+        justifyContent: 'flex-end',
+        marginBottom: 100,
+        backgroundColor: 'yellow',
+      }}
+      behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
+    >
+      <TextInput placeholder="Enter text" />
+      <TextInput placeholder="Enter text" />
+      <TextInput placeholder="Enter text" />
+    </KeyboardAvoidingView>
+  );
+};
+
+const FragmentExample = () => {
+  return (
+    <>
+      <View
+        style={{
+          flex: 0.3,
+          backgroundColor: 'yellow',
+          width: 200,
+          // height: '30%',
+        }}
+      />
+      <Text>Hello</Text>
+      <Text>We are in a fragment</Text>
+    </>
   );
 };
 
 export default function App() {
   return (
-    <View style={{ ...styles.container, backgroundColor: 'orange' }}>
-      <ScrollViewExample />
+    <View style={{ ...styles.container, backgroundColor: 'white' }}>
+      <FragmentExample />
     </View>
   );
 }
